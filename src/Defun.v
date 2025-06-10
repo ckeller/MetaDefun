@@ -272,7 +272,8 @@ Elpi Export Defun.
 
 
 
-(* Example: defunctionalization of the factorial function written with continuations *)
+(* Example: defunctionalization of the factorial function written with a
+   continuation *)
 
 Definition natToNat := nat -> nat.
 Defun (let fact' : nat -> natToNat -> nat :=
@@ -304,9 +305,9 @@ Print apply'.
 Print cont'.
 
 
-(* Example: reversal of lists with continuations *)
+(* Example: append of two lists with a continuation *)
 Require Import List.
-Section Rev.
+Section Append.
   Variable A : Type.
 
   Definition listAToListA := list A -> list A.
@@ -325,4 +326,4 @@ Section Rev.
   Print app.
   Print applyApp.
   Print contApp.
-End Rev.
+End Append.
