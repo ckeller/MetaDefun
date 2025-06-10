@@ -327,3 +327,61 @@ Section Append.
   Print applyApp.
   Print contApp.
 End Append.
+
+
+(* (* Example: evaluator of arithmetic expressions *) *)
+(* Inductive expr : Set := *)
+(* | Lit : nat -> expr *)
+(* | Add : expr -> expr -> expr *)
+(* | Mul : expr -> expr -> expr. *)
+
+(* Defun ( *)
+(*   let eval' : expr -> natToNat -> nat := *)
+(*     fix eval' (e:expr) (k:natToNat) {struct e} : nat := *)
+(*       match e return nat with *)
+(*       | Lit n => k n *)
+(*       | Add e1 e2 => eval' e1 (fun n1 => eval' e2 (fun n2 => k (n1+n2))) *)
+(*       | Mul e1 e2 => eval' e1 (fun n1 => eval' e2 (fun n2 => k (n1*n2))) *)
+(*       end *)
+(*   in *)
+(*   let eval := fun e => eval' e (fun n => n) in *)
+(*   eval) (natToNat) eval applyEval contEval. *)
+
+
+(* Example: map on list *)
+
+(* Defun (let map : natToNat -> list nat -> list nat := *)
+(*   fix map (f:natToNat) (l:list nat) {struct l} : list nat := *)
+(*     match l return list nat with *)
+(*     | nil => nil *)
+(*     | x::xs => (f x)::(map f xs) *)
+(*     end *)
+(*        in *)
+(*        let times2 := fun l => map (fun (n:nat) => n*2) l in *)
+(*        times2) (natToNat) times2 applyTimes2 fTimes2. *)
+
+
+(* Example for wikipedia https://en.wikipedia.org/wiki/Defunctionalization *)
+(* Section Tree. *)
+(*   Variable A : Type. *)
+
+(*   Inductive tree : Type := *)
+(*   | Leaf : A -> tree *)
+(*   | Node : tree -> tree -> tree. *)
+
+(*   Definition listAToListA := list A -> list A. *)
+(*   Definition listAToListA' := list A -> list A. *)
+
+(*   Defun ( *)
+(*       let cons : A -> list A -> list A := fun x l => x::l in *)
+(*       let comp : listAToListA -> listAToListA' -> list A -> list A := fun f g x => f (g x) in *)
+(*       let walk : tree -> list A -> list A := *)
+(*         fix walk t : list A -> list A := *)
+(*           match t return list A -> list A with *)
+(*           | Leaf x => cons x *)
+(*           | Node t1 t2 => comp (walk t1) (walk t2) *)
+(*           end *)
+(*       in *)
+(*       let flatten : tree -> list A := fun t => walk t nil in *)
+(*       flatten) (listAToListA) flatt applyFlatt tototutu. *)
+(* End Tree. *)
