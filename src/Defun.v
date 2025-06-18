@@ -1,4 +1,6 @@
-(* Tested with Coq 8.20 and Coq-elpi 2.2.3 *)
+(* Compiles with Rocq 9.0.0 and Rocq-Elpi 2.5.2
+   To compile: rocq compile Defun.v
+ *)
 
 From elpi Require Import elpi.
 
@@ -116,33 +118,33 @@ Elpi Accumulate lp:{{
       %% Defunctionalizing a term, computing [apply] and the inductive type at
       %% the same time
       pred defun_term
-        i:int,                       % temporary input arg to generate fresh
-                                     %   constructor names (to be removed)
-        o:int,                       % temporary output arg to generate fresh
-                                     %   constructor names (to be removed)
-        i:list (pair term term),     % list of variables to put in the closure
-        i:option term,               % name of the higher-order function
-                                     %   (to be replaced by a call to [apply])
-        i:option term,               % name of the reified first-order function
-        i:term,                      % type to remove
-        i:term,                      % term to defunctionalize
-        o:term,                      % result
-        i:term,                      % global [apply] constant
-        i:term,                      % local [apply] symbol (for fixpoint definition)
-        i:list term,                 % input list of patterns for [apply]
-        o:list term,                 % output list of patterns for [apply]
-        i:term,                      % global inductive constant
-        i:string,                    % base name for the inductive constructor names
-        i:list constructor,          % global list of the inductive constructor names
-        i:term,                      % local inductive symbol
-                                     %   (for inductive declaration)
-        i:list indc-decl,            % input list of constructors for the inductive
-        o:list indc-decl.            % output list of constructors for the inductive
+        i:int,                                % temporary input arg to generate fresh
+                                              %   constructor names (to be removed)
+        o:int,                                % temporary output arg to generate fresh
+                                              %   constructor names (to be removed)
+        i:list (pair term (pair term term)),  % list of variables to put in the closure
+        i:option term,                        % name of the higher-order function
+                                              %   (to be replaced by a call to [apply])
+        i:option term,                        % name of the reified first-order function
+        i:term,                               % type to remove
+        i:term,                               % term to defunctionalize
+        o:term,                               % result
+        i:term,                               % global [apply] constant
+        i:term,                               % local [apply] symbol (for fixpoint definition)
+        i:list term,                          % input list of patterns for [apply]
+        o:list term,                          % output list of patterns for [apply]
+        i:term,                               % global inductive constant
+        i:string,                             % base name for the inductive constructor names
+        i:list constructor,                   % global list of the inductive constructor names
+        i:term,                               % local inductive symbol
+                                              %   (for inductive declaration)
+        i:list indc-decl,                     % input list of constructors for the inductive
+        o:list indc-decl.                     % output list of constructors for the inductive
 
-      pred defun_term_map            % map defun_term to a list of terms (same parameters)
+      pred defun_term_map                     % map defun_term to a list of terms (same parameters)
         i:int,
         o:int,
-        i:list (pair term term),
+        i:list (pair term (pair term term)),
         i:option term,
         i:option term,
         i:term,
@@ -205,7 +207,7 @@ Elpi Accumulate lp:{{
         list_nth I4 IndConsGlob2 KGlob.
 
       % Simple traversals of a term
-      defun_term _ _ _    X1 X2 _ (app [] as UU) (app []) _ _ App App _ _ _ _ Ind Ind :- !,
+      defun_term _ _ _    _ _ _ (app [] as UU) (app []) _ _ App App _ _ _ _ Ind Ind :- !,
         debug_pred "Calling defun_term 04 on" (some UU).
       defun_term I1 I2 Vars X1 X2 T0 (app [A1] as UU) (app [A2]) AppSymGlob AppSym App1 App2 IndSymGlob IndConsName IndConsGlob IndSym Ind1 Ind2 :- !,
         debug_pred "Calling defun_term 05 on" (some UU),
@@ -263,7 +265,7 @@ Elpi Accumulate lp:{{
         i:string,            % name of the inductive type
         i:term,              % global constant for the inductive type
         i:list constructor,  % global list of inductive constructor names
-        o:term.              % body of the inductive type
+        o:indt-decl.         % body of the inductive type
       defun T0 U1 U2 AppSymGlob (fix `apply0` 0 (prod `k` IndSymGlob (x\ T0)) F) Ind IndSymGlob IndConsGlob (inductive Ind tt (arity T) I) :-
         T = {{ Type }},
         (pi appsym\ ((decl appsym `apply0` (prod `k` IndSymGlob (x\ T0))) => (pi indsym\ ((decl indsym `cont` T) => (
